@@ -20,7 +20,8 @@ class _LocationState extends State<PermissionPage> {
   void initState() {
     super.initState();
     controller = Get.find();
-    // TODO: Asigna a _permissionStatus el futuro que obtiene el estado de los permisos.;
+    // TO-DO: Asigna a _permissionStatus el futuro que obtiene el estado de los permisos.;
+    _permissionStatus = Future(() => controller.permissionStatus);
   }
 
   @override
@@ -42,10 +43,11 @@ class _LocationState extends State<PermissionPage> {
                       (_) => Get.offAll(() => ContentPage()),
                     ),
                   );
-              /* TODO: Busca el controlador de ubicacion [LocationController] con [Get.find],
+              /* TO-DO: Busca el controlador de ubicacion [LocationController] con [Get.find],
+
                inicializalo [initialize] y cuando el futuro se complete [then] usando [WidgetsBinding.instance.addPostFrameCallback]
                navega usando [Get.offAll] a [ContentPage] */
-
+              return CircularProgressIndicator();
               // TODO: Mientras el futuro se completa muestra un CircularProgressIndicator
             } else if (status == LocationPermission.unableToDetermine ||
                 status == LocationPermission.denied) {
@@ -54,19 +56,25 @@ class _LocationState extends State<PermissionPage> {
                     onPressed: () {
                       setState(() {
                         // TODO: Actualiza el futuro _permissionStatus con requestPermission
+                        _permissionStatus = controller.requestPermission();
                         // TODO: y setState para que el FutureBuilder vuelva a renderizarse.
                       });
                     },
                     child: const Text("Solicitar Permisos")),
               );
             } else {
-              // TODO: Muestra un texto cuando el usuario a denegado el permiso permanentemente
+              // TO-DO: Muestra un texto cuando el usuario a denegado el permiso permanentemente
+              return const Center(
+                child: Text("Usuario ha denegado el permiso permanentemente"),
+              );
             }
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.hasError) {
-            // TODO: Muestra un texto con el error si ocurre.
+            // TO-DO: Muestra un texto con el error si ocurre.
+            return Center(child: Text(snapshot.error.toString()));
           } else {
-            // TODO: Mientras el futuro se completa muestra un CircularProgressIndicator
+            // TO-DO: Mientras el futuro se completa muestra un CircularProgressIndicator
+            return const CircularProgressIndicator();
           }
         },
       ),
