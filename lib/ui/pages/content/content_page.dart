@@ -2,6 +2,7 @@ import 'package:f_gps_tracker/domain/models/location.dart';
 import 'package:f_gps_tracker/ui/controllers/gps.dart';
 import 'package:f_gps_tracker/ui/controllers/location.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 
 class ContentPage extends GetView<LocationController> {
@@ -28,14 +29,14 @@ class ContentPage extends GetView<LocationController> {
                     child: ElevatedButton(
                       onPressed: () async {
                         // TO-DO: 1. Obten la ubicacion actual con gpsController.currentLocation
-                        // await gpsController.currentLocation;
+                        Position position = await gpsController.currentLocation;
                         // TO-DO: 2. Obten la precision de la lectura con gpsController.locationAccuracy.
-                        // await gpsController.accuracy;
+                        LocationAccuracyStatus precision = await gpsController.locationAccuracy;
                         // TO-DO: 3. Crea un objeto [TrackedLocation] con fecha actual [DateTime.now] y la precision como texto [accuracy.name]
-                        TrackedLocation userLocation = TrackedLocation(
-                            latitude: gpsController.location!.latitude,
-                            longitude: gpsController.location!.longitude,
-                            precision: gpsController.accuracy.toString(),
+                        TrackedLocation userLocation = await TrackedLocation(
+                            latitude: position.latitude,
+                            longitude: position.longitude,
+                            precision: precision.name,
                             timestamp: DateTime.now());
                         // TO-DO: 4. con el [controller] guarda ese objeto [saveLocation]
                         controller.saveLocation(location: userLocation);
@@ -86,7 +87,7 @@ class ContentPage extends GetView<LocationController> {
                         // TO-DO: elimina todas las ubicaciones usando el controlador [deleteAll]
                         await controller.deleteAll();
                       },
-                      child: const Text("Eliminar Todos"),
+                      child: const Text("Eliminar Ubicaciones"),
                     ),
                   ),
                 ],

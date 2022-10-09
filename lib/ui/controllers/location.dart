@@ -16,18 +16,20 @@ class LocationController extends GetxController {
   }) async {
     /* TO-DO: Usa [LocationManager] para guardar [save] la ubicacion [location] */
     await LocationManager.save(location: location);
+    _locations.update((_) => _locations.value.add(location));
   }
 
   Future<List<TrackedLocation>> getAll({
     String? orderBy,
   }) async {
     /* TO-DO: Usa [getAll] de [LocationManager] para obtener la lista de ubicaciones guardadas y retornalas */
-    return await LocationManager.getAll();
+    return LocationManager.getAll();
   }
 
   Future<void> updateLocation({required TrackedLocation location}) async {
-    /* TODO: Usa [LocationManager.update] para actualizar la ubicacion y luego obten todas las ubicaciones de nuevo */
-    await LocationManager.update(location: location);
+    /* TO-DO: Usa [LocationManager.update] para actualizar la ubicacion y luego obten todas las ubicaciones de nuevo */
+    LocationManager.update(location: location);
+    _locations.update((val) => val);
   }
 
   Future<void> deleteLocation({required TrackedLocation location}) async {
@@ -37,14 +39,6 @@ class LocationController extends GetxController {
       val?.removeWhere((element) => element == location);
     });
 
-    /* TO-DO: Ejemplo [https://github.com/jonataslaw/getx/blob/master/documentation/en_US/state_management.md]
-      final user = User().obs;
-
-      user.update( (user) {
-      user.name = 'Jonny';
-      user.age = 18;
-      });
-     */
   }
 
   Future<void> deleteAll() async {
