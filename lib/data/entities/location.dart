@@ -1,4 +1,3 @@
-// Es simplemente una manera de agregar funcionalidad a una clase existente.
 import 'package:f_gps_tracker/domain/models/location.dart';
 
 extension LocationEntity on TrackedLocation {

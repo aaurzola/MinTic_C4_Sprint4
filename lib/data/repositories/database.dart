@@ -3,7 +3,7 @@ import 'package:f_gps_tracker/domain/models/location.dart';
 import 'package:f_gps_tracker/domain/repositories/hive_interface.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class LocationRepository extends DatabaseInterface { //TO-DO: Check if implements works rather than Extends
+class LocationRepository implements DatabaseInterface { //TO-DO: Check if implements works rather than Extends
   late Box _box;
 
   Box get box => _box;
