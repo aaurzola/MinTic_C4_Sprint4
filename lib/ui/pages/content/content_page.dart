@@ -4,6 +4,7 @@ import 'package:f_gps_tracker/ui/controllers/location.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContentPage extends GetView<LocationController> {
   late final GpsController gpsController = Get.find();
@@ -29,7 +30,8 @@ class ContentPage extends GetView<LocationController> {
                     child: ElevatedButton(
                       onPressed: () async {
                         Position position = await gpsController.currentLocation;
-                        LocationAccuracyStatus precision = await gpsController.locationAccuracy;
+                        LocationAccuracyStatus precision =
+                            await gpsController.locationAccuracy;
                         TrackedLocation userLocation = await TrackedLocation(
                             latitude: position.latitude,
                             longitude: position.longitude,
@@ -50,9 +52,15 @@ class ContentPage extends GetView<LocationController> {
                           return Card(
                             child: ListTile(
                               isThreeLine: true,
-                              leading: Icon(
-                                Icons.gps_fixed_rounded,
-                                color: Colors.green[300],
+                              leading: IconButton(
+                                icon: const Icon(
+                                  Icons.map,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  _launchURL(
+                                      location.latitude, location.longitude);
+                                },
                               ),
                               title: Text(
                                   '${location.latitude}, ${location.longitude}'),
@@ -95,5 +103,15 @@ class ContentPage extends GetView<LocationController> {
         ),
       ),
     );
+  }
+
+  _launchURL(double latitud, double longitud) async {
+    Uri url = Uri.parse(
+        "https://www.google.com/maps/search/?api=1&query=$latitud%2C$longitud");
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
