@@ -63,7 +63,7 @@ class _LocationState extends State<PermissionPage> {
               snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
         },
       ),
