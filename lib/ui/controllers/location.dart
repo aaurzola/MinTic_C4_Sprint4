@@ -16,8 +16,9 @@ class LocationController extends GetxController {
     required TrackedLocation location,
   }) async {
     await LocationManager.save(location: location);
-    _locations.value = await LocationManager.getAll();
+    _locations.update((_)=> _locations.value.add(location));
   }
+
 
   Future<List<TrackedLocation>> getAll({
     String? orderBy,

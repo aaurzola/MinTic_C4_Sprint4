@@ -32,7 +32,7 @@ class ContentPage extends GetView<LocationController> {
                         Position position = await gpsController.currentLocation;
                         LocationAccuracyStatus precision =
                             await gpsController.locationAccuracy;
-                        TrackedLocation userLocation = await TrackedLocation(
+                        TrackedLocation userLocation = TrackedLocation(
                             latitude: position.latitude,
                             longitude: position.longitude,
                             precision: precision.name,
